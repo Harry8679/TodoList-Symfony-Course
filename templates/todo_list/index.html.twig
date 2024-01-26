@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Todo List
+{% endblock %}
+
+{% block body %}
+	<div class="header">
+		<h2>My TodoList</h2>
+		<hr>
+
+		<form action="{{ path('app_create_task') }}" method="POST">
+			<input type="text" name="title" placeholder="Ajouter une tâche"/>
+			<button type="submit">Ajouter</button>
+		</form>
+
+		<h4>La liste de nos tâches</h3>
+		<ul>
+			{% for task in tasks %}
+				{% if task.status %}
+					<li>
+						<s>{{ task.title }}</s>
+						<a href="{{ path('app_switch_status', {'id': task.id }) }}">O</a>
+						<a onclick="return confirm('Voulez-vous supprimer cette tâche ?')" href="{{ path('app_delete_task', {'id': task.id }) }}">X</a>
+					</li>
+				{% else %}
+					<li>
+						{{ task.title }}
+						<a href="{{ path('app_switch_status', {'id': task.id }) }}">O</a>
+						<a onclick="return confirm('Voulez-vous supprimer cette tâche ?')" href="{{ path('app_delete_task', {'id': task.id }) }}">X</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}
